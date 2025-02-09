@@ -32,11 +32,12 @@ public class User {
         return this.ticketsBooked;
     }
 
-//    Get details about the tickets booked by the user
-    public void printTickets() {
-        for (Ticket ticket: ticketsBooked) {
-            System.out.println(ticket.getTicketInfo());
-        }
+    public String getHashPassword() {
+        return hashPassword;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     //setters for various fields
@@ -58,5 +59,12 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    //    Get details about the tickets booked by the user
+    public void printTickets() {
+        for (Ticket ticket: ticketsBooked) {
+            System.out.println(ticket.getTicketInfo());
+        }
     }
 }
