@@ -26,7 +26,7 @@ public class Main {
         UserBookingService userBookingService;
         try {
             userBookingService = new UserBookingService();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Some error with loading file");
             System.out.println(e.getMessage());
             return;
@@ -34,6 +34,14 @@ public class Main {
 
         while (option != 7) {
             System.out.println("Choose an option");
+            System.out.println("1. Sign Up");
+            System.out.println("2. Login");
+            System.out.println("3. Fetch Bookings");
+            System.out.println("4. Search Trains");
+            System.out.println("5. Book a seat");
+            System.out.println("6. Cancel my Booking");
+            System.out.println("7. Exit the App");
+
             option = sc.nextInt();
             switch (option) {
                 case 1:
@@ -42,7 +50,7 @@ public class Main {
                     System.out.println("Enter password");
                     String pass = sc.next();
                     User newUser = new User(name, pass, UserServiceUtil.hashPassword(pass), new ArrayList<Ticket>(), UUID.randomUUID().toString());
-                    if(userBookingService.signUp(newUser)) {
+                    if (userBookingService.signUp(newUser)) {
                         System.out.println("Sign-Up Successful!");
                     } else {
                         System.out.println("Unable to Signup!");
@@ -59,14 +67,24 @@ public class Main {
                     } catch (IOException e) {
                         System.out.println("Error " + e.getMessage());
                     }
-                    if(userBookingService.loginUser()) {
+                    if (userBookingService.loginUser()) {
                         System.out.println("Log-in Successful!");
                     } else {
                         System.out.println("User not found!");
                         System.out.println("Username or Password might be incorrect");
                     }
-                    return;
+                    break;
+                case 3:
+                    try {
+                        userBookingService.fetchBooking();
+                    } catch (NullPointerException e) {
+                        System.out.println("Please login first");
+                        break;
+                    }
+                    break;
+
             }
         }
     }
 }
+      

@@ -25,20 +25,28 @@ public class UserBookingService {
     public UserBookingService (User user) throws IOException {
         this.user = user;
         File users = new File(USERS_PATH);
-        userList = loadUsers();
+        this.userList = loadUsers();
     }
 
 /* load users from the DB */
     public List<User> loadUsers() throws IOException{
         File users = new File(USERS_PATH);
-        System.out.println("Users loaded using function loadUsers");
+
+//        System.out.println("Users loaded using function loadUsers");
+
         ObjectMapper.registerModule(new JavaTimeModule()); //Register module to handle LocalDateTime
         return ObjectMapper.readValue(users, new TypeReference<List<User>> () {});
     }
 
 //    default constructor to load the user data on object creation
     public UserBookingService() throws IOException{
-        userList = loadUsers();
+        this.userList = loadUsers();
+
+/*
+        to check data being read from JSON
+        String jsonString = ObjectMapper.writeValueAsString(userList);
+        System.out.println("Serialized JSON:\n" + jsonString);
+*/
     }
 
 /* Check if the current user is already logged in / exists in the database */
@@ -47,7 +55,13 @@ public class UserBookingService {
                 .filter(user1 -> user1.getName().equalsIgnoreCase(user.getName())
                         && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashPassword()))
                 .findFirst();
-        return foundUser.isPresent();
+
+        if(foundUser.isPresent()) {
+            //assign current user to user that was found in the DB
+            this.user = foundUser.get();
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
 /* signup function */
@@ -71,6 +85,7 @@ public class UserBookingService {
 /* get user bookings */
     public void fetchBooking() {
         user.printTickets();
+//        System.out.println(user.getTicketsBooked().size());
     }
 
 /* take ticket ID, if date of travel after current date -> cancel booking */

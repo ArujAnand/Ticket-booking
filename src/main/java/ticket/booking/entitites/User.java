@@ -1,5 +1,6 @@
 package ticket.booking.entitites;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -7,13 +8,13 @@ public class User {
     private String password;
     private String hashPassword;
     private String userId;
-    private List<Ticket> ticketsBooked;
+    private List<Ticket> ticketsBooked = new ArrayList<>();
 
     public User(String name, String password, String hashPassword, List<Ticket> ticketsBooked, String userId) {
         this.name = name;
         this.password = password;
         this.hashPassword = hashPassword;
-        this.ticketsBooked = ticketsBooked;
+        this.ticketsBooked = (ticketsBooked == null) ? new ArrayList<>() : ticketsBooked;;
         this.userId = userId;
     }
 
@@ -63,6 +64,11 @@ public class User {
 
     /* Get details about the tickets booked by the user */
     public void printTickets() {
+        if (ticketsBooked.isEmpty()) {
+            System.out.println("No bookings exist");
+            return;
+        }
+        System.out.println("Fetching your bookings....");
         for (Ticket ticket: ticketsBooked) {
             System.out.println(ticket.getTicketInfo());
         }
