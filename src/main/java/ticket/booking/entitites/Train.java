@@ -1,5 +1,7 @@
 package ticket.booking.entitites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,8 @@ public class Train {
         this.stations = stations;
     }
 
+    public Train() {
+    }
     //getters
 
     public String getTrainId() {
@@ -61,6 +65,7 @@ public class Train {
         this.stations = stations;
     }
 
+    @JsonIgnore
     public String getTrainInfo() {
         return String.format("Train ID: %s  Train No: %d", this.trainId, this.trainNo);
     }

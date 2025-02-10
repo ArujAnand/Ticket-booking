@@ -1,7 +1,8 @@
 package ticket.booking.entitites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Ticket {
     private String ticketId;
@@ -19,6 +20,8 @@ public class Ticket {
         this.dateOfTravel = dateOfTravel;
         this.train = train;
     }
+
+    public Ticket() {}
 
 //    Getter
     public String getTicketId() {
@@ -71,6 +74,7 @@ public class Ticket {
     }
 
     /* invoked from the User class to get info about a particular ticket */
+    @JsonIgnore
     public String getTicketInfo () {
         return String.format("User ID: %s  Ticket ID: %s Ticket Source: %s   Ticket Destination: %s   Date Of Travel: %Tr",
                 this.userId,

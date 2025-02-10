@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ticket.booking.entitites.*;
 import ticket.booking.utilities.UserServiceUtil;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +19,26 @@ public class UserBookingService {
     private List<User> userList;
 
     private ObjectMapper ObjectMapper = new ObjectMapper();
-    private static final String USERS_PATH = Paths.get("localDB", "users.json").toString();
+
+    private static final String USERS_PATH = "REPLACE WITH ABSOLUTE PATH OF users.json";
+
     public UserBookingService (User user) throws IOException {
         this.user = user;
         File users = new File(USERS_PATH);
-        userList = ObjectMapper.readValue(users, new TypeReference<List<User>> () {});
+        userList = loadUsers();
+    }
+
+/* load users from the DB */
+    public List<User> loadUsers() throws IOException{
+        File users = new File(USERS_PATH);
+        System.out.println("Users loaded using function loadUsers");
+        ObjectMapper.registerModule(new JavaTimeModule()); //Register module to handle LocalDateTime
+        return ObjectMapper.readValue(users, new TypeReference<List<User>> () {});
+    }
+
+//    default constructor to load the user data on object creation
+    public UserBookingService() throws IOException{
+        userList = loadUsers();
     }
 
 /* Check if the current user is already logged in / exists in the database */
@@ -46,9 +61,10 @@ public class UserBookingService {
         }
     }
 
-/* add new users to file */
+/* update DB */
     private void saveUserListToFile() throws IOException {
         File usersFile = new File(USERS_PATH);
+        ObjectMapper.registerModule(new JavaTimeModule());
         ObjectMapper.writeValue(usersFile, userList);
     }
 
