@@ -1,5 +1,6 @@
 package ticket.booking.entitites;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Ticket {
@@ -7,10 +8,10 @@ public class Ticket {
     private String userId;
     private String source;
     private String destination;
-    private Date dateOfTravel;
+    private LocalDateTime dateOfTravel;
     private Train train;                                  // Train class is in same package hence can be accessed without importing
 
-    public Ticket(String ticketId, String userId, String source, String destination, Date dateOfTravel, Train train) {
+    public Ticket(String ticketId, String userId, String source, String destination, LocalDateTime dateOfTravel, Train train) {
         this.ticketId = ticketId;
         this.userId = userId;
         this.source = source;
@@ -36,7 +37,7 @@ public class Ticket {
         return destination;
     }
 
-    public Date getDateOfTravel() {
+    public LocalDateTime getDateOfTravel() {
         return dateOfTravel;
     }
 
@@ -57,7 +58,7 @@ public class Ticket {
         this.destination = destination;
     }
 
-    public void setDateOfTravel(Date dateOfTravel) {
+    public void setDateOfTravel(LocalDateTime dateOfTravel) {
         this.dateOfTravel = dateOfTravel;
     }
 
@@ -69,7 +70,7 @@ public class Ticket {
         return train;
     }
 
-    //invoked from the User class to get info about a particular ticket
+    /* invoked from the User class to get info about a particular ticket */
     public String getTicketInfo () {
         return String.format("User ID: %s  Ticket ID: %s Ticket Source: %s   Ticket Destination: %s   Date Of Travel: %Tr",
                 this.userId,

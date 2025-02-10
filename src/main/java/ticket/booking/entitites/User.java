@@ -19,7 +19,7 @@ public class User {
 
     public User() {}
 
-    //getters for various fields
+    /* getters for various fields */
     public String getName() {
         return this.name;
     }
@@ -40,7 +40,7 @@ public class User {
         return userId;
     }
 
-    //setters for various fields
+    /* setters for various fields */
     public void setName(String name) {
         this.name = name;
     }
@@ -61,7 +61,7 @@ public class User {
         this.userId = userId;
     }
 
-    //    Get details about the tickets booked by the user
+    /* Get details about the tickets booked by the user */
     public void printTickets() {
         for (Ticket ticket: ticketsBooked) {
             System.out.println(ticket.getTicketInfo());

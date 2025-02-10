@@ -5,6 +5,7 @@
     "hashed_password": "12345",
     "tickets_booked": [
       {
+        "ticketId": "A4145B",
         "source": "Bangalore",
         "destination": "Delhi",
         "date_of_travel": "2023-12-08T18:30:00Z",
