@@ -77,6 +77,5 @@ public class User {
         for (Ticket ticket: ticketsBooked) {
             System.out.println(ticket.getTicketInfo());
         }
-        return;
     }
 }
