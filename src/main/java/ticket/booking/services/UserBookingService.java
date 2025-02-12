@@ -2,43 +2,31 @@ package ticket.booking.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ticket.booking.entitites.*;
+import ticket.booking.entities.*;
 import ticket.booking.utilities.UserServiceUtil;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.time.LocalDateTime;
 
-/* Get user data from local DB JSON using Jackson Object Mapper */
 public class UserBookingService {
     private User user;
     private List<User> userList;
 
     private ObjectMapper ObjectMapper = new ObjectMapper();
 
-    private static final String USERS_PATH = "REPLACE WITH ABSOLUTE PATH OF users.json";
+    private static final String USERS_PATH = "C:\\Users\\Dell\\Documents\\Java\\Projects\\IRCTC\\src\\main\\java\\ticket\\booking\\localDB\\users.json";
 
-    public UserBookingService (User user) throws IOException {
-        this.user = user;
-        File users = new File(USERS_PATH);
-        this.userList = loadUsers();
-    }
-
-/* load users from the DB */
-    public List<User> loadUsers() throws IOException{
-        File users = new File(USERS_PATH);
-
-//        System.out.println("Users loaded using function loadUsers");
-
-        ObjectMapper.registerModule(new JavaTimeModule()); //Register module to handle LocalDateTime
-        return ObjectMapper.readValue(users, new TypeReference<List<User>> () {});
-    }
-
-//    default constructor to load the user data on object creation
+    /**
+     * Default Constructor which
+     * loads the users in the memory from DB on object creation of type UserBookingService
+     * @throws IOException If an error occurs in {@link #loadUsers()} function while loading the users stored in the DB
+     */
     public UserBookingService() throws IOException{
         this.userList = loadUsers();
 
@@ -48,6 +36,35 @@ public class UserBookingService {
         System.out.println("Serialized JSON:\n" + jsonString);
 */
     }
+
+    /**
+     * Parameterised Constructor
+     * Takes parameter of type {@code User} and sets it to current user and initialises userlist from the
+     * database
+     * @param user The user set to current user.
+     * @throws IOException If an error occurs while fetching the user list from the database.
+     */
+    public UserBookingService (User user) throws IOException {
+        this.user = user;
+        //might be useless; check later
+        File users = new File(USERS_PATH);
+        this.userList = loadUsers();
+    }
+
+    /**
+     * load users from the DB
+     * @return List<User></User> The list of class users - essentially a list of users stored in the DB
+     * @throws IOException If an error occurs while fetching the user list from the database.
+     */
+    public List<User> loadUsers() throws IOException{
+        File users = new File(USERS_PATH);
+
+//        System.out.println("Users loaded using function loadUsers");
+
+        ObjectMapper.registerModule(new JavaTimeModule()); //Register module to handle LocalDateTime
+        return ObjectMapper.readValue(users, new TypeReference<List<User>> () {});
+    }
+
 
 /* Check if the current user is already logged in / exists in the database */
     public Boolean loginUser() {
@@ -75,14 +92,19 @@ public class UserBookingService {
         }
     }
 
-/* update DB */
+    /**
+     * saves user list to JSON file
+     * @throws IOException If an error occurs while saving user list to file
+     */
     private void saveUserListToFile() throws IOException {
         File usersFile = new File(USERS_PATH);
         ObjectMapper.registerModule(new JavaTimeModule());
         ObjectMapper.writeValue(usersFile, userList);
     }
 
-/* get user bookings */
+    /**
+     * Prints user bookings by calling {@link ticket.booking.entities.User#printTickets()} function of the User class
+     */
     public void fetchBooking() {
         user.printTickets();
 //        System.out.println(user.getTicketsBooked().size());
@@ -111,5 +133,20 @@ public class UserBookingService {
 
         System.out.println("No such upcoming bookings exist");
         return false;
+    }
+
+    /**
+     * @param source source station
+     * @param destination destination station
+     * @return List of trains going from source to destination
+     */
+    public List<Train> getTrains(String source, String destination) {
+        try {
+            TrainService trainService = new TrainService(); //loads train list in memory
+            return trainService.searchTrains(source, destination); //actual search begins
+        } catch (IOException e) {
+            System.out.println("Unable to load trains : " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

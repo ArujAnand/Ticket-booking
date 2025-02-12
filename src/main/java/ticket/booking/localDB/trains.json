@@ -1,15 +1,15 @@
 
 [
   {
-    "train_id": "bacs",
-    "train_no": 12345,
+    "trainId": "bacs",
+    "trainNo": 12345,
     "seats": [
       [0,0,0,0,0,0],
       [0,0,0,0,0,0],
       [0,0,0,0,0,0],
       [0,0,0,0,0,0]
     ],
-    "station_times": {
+    "stationTimes": {
       "bangalore": "13:50:00",
       "jaipur": "13:50:00",
       "delhi": "13:50:00"
@@ -21,23 +21,23 @@
     ]
   },
   {
-    "train_id": "bacs",
-    "train_no": 12345,
+    "trainId": "sjcb",
+    "trainNo": 2351,
     "seats": [
       [0,0,0,0,0,0],
       [0,0,0,0,0,0],
       [0,0,0,0,0,0],
       [0,0,0,0,0,0]
     ],
-    "station_times": {
-      "bangalore": "13:50:00",
-      "jaipur": "13:50:00",
-      "delhi": "13:50:00"
+    "stationTimes": {
+      "bangalore": "11:50:00",
+      "Lucknow": "12:50:00",
+      "Kanpur": "13:50:00"
     },
     "stations": [
       "bangalore",
-      "jaipur",
-      "delhi"
+      "Lucknow",
+      "Kanpur"
     ]
   }
 ]

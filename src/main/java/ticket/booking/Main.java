@@ -1,14 +1,13 @@
 package ticket.booking;
 
-import ticket.booking.entitites.Ticket;
-import ticket.booking.entitites.User;
+import ticket.booking.entities.Ticket;
+import ticket.booking.entities.Train;
+import ticket.booking.entities.User;
 import ticket.booking.services.UserBookingService;
 import ticket.booking.utilities.UserServiceUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -82,7 +81,25 @@ public class Main {
                         break;
                     }
                     break;
+                case 4:
+                    System.out.println("Enter your source station");
+                    String source = sc.next();
+                    System.out.println("Enter your destination station");
+                    String destination = sc.next();
+                    List<Train> trains = userBookingService.getTrains(source, destination);
+                    int index = 1;
+                    for (Train t: trains) {
+                        System.out.println(index + " Train id : " + t.getTrainId());
+//                        for (Map.entry<String, String> entry: t.getStationTimes().entrySet()) {
+//                            System.out.println("station " + entry.getKey() + " time: " + entry.getValue());
+//                        }
+                    }
 
+                    System.out.println("Select a train by typing 1,2,3...");
+                    Train trainSelectedForBooking = trains.get(sc.nextInt());
+                    break;
+                default:
+                    System.out.println("Invalid Option");
             }
         }
     }
