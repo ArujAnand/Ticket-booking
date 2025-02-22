@@ -20,7 +20,7 @@ public class UserBookingService {
 
     private ObjectMapper ObjectMapper = new ObjectMapper();
 
-    private static final String USERS_PATH = "C:\\Users\\Dell\\Documents\\Java\\Projects\\IRCTC\\src\\main\\java\\ticket\\booking\\localDB\\users.json";
+    private static final String USERS_PATH = "ADD ABSOLUTE USERS.JSON DB PATH";
 
     /**
      * Default Constructor which
@@ -66,7 +66,7 @@ public class UserBookingService {
     }
 
 
-/* Check if the current user is already logged in / exists in the database */
+/* Check if the current user is already logged in or exists in the database */
     public Boolean loginUser() {
         Optional<User> foundUser = userList.stream()
                 .filter(user1 -> user1.getName().equalsIgnoreCase(user.getName())
@@ -148,5 +148,19 @@ public class UserBookingService {
             System.out.println("Unable to load trains : " + e.getMessage());
             return new ArrayList<>();
         }
+    }
+
+    /**
+     * @param seatNo seat selected
+     * @param seats Seat allocation in a train
+     * @return Returns TRUE if selected seat is not booked, else return FALSE
+     */
+    public boolean isValidSelection (int seatNo, List<List<Integer>> seats) {
+        for (var sublist: seats) {
+            if (sublist.contains(seatNo))
+                return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
     }
 }

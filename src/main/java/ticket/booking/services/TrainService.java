@@ -67,8 +67,8 @@ public class TrainService {
         stationOrder.replaceAll(String::toLowerCase);
 //        System.out.println(stationOrder);
 
-        int sourceIndex = stationOrder.indexOf(source.toLowerCase());
-        int destinationIndex = stationOrder.indexOf(destination.toLowerCase());
+        int sourceIndex = stationOrder.indexOf(source);
+        int destinationIndex = stationOrder.indexOf(destination);
 
         return sourceIndex != -1 && destinationIndex != -1 && sourceIndex < destinationIndex;
     }

@@ -9,11 +9,11 @@ import ticket.booking.utilities.UserServiceUtil;
 import java.io.IOException;
 import java.util.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        int trainSelectedForBooking;
+        int trainSelectedForBooking = -1; //to store the index of train selected for booking
+        Train selected = null;  //to store the train selected
+        boolean isLoggedIn = Boolean.FALSE;
 
         System.out.println("Hello and welcome!");
         System.out.println("Running Train Booking System");
@@ -31,6 +31,7 @@ public class Main {
         }
 
         while (option != 7) {
+            System.out.println("---------------------------------");
             System.out.println("Choose an option");
             System.out.println("1. Sign Up");
             System.out.println("2. Login");
@@ -67,6 +68,7 @@ public class Main {
                     }
                     if (userBookingService.loginUser()) {
                         System.out.println("Log-in Successful!");
+                        isLoggedIn = Boolean.TRUE;
                     } else {
                         System.out.println("User not found!");
                         System.out.println("Username or Password might be incorrect");
@@ -82,16 +84,16 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Enter your source station");
-                    String source = sc.next();
+                    String source = sc.next().toLowerCase();
                     System.out.println("Enter your destination station");
-                    String destination = sc.next();
+                    String destination = sc.next().toLowerCase();
                     List<Train> trains = userBookingService.getTrains(source, destination);
                     int index = 1;
                     for (Train t: trains) {
                         System.out.println(index + " Train id : " + t.getTrainId());
                         Map <String, String> stationTimes = t.getStationTimes();
-                        System.out.println("station " + source + " time: " + stationTimes.get(source));
-                        System.out.println("station " + destination + " time: " + stationTimes.get(destination));
+                        System.out.println("station " + source.toUpperCase() + " time: " + stationTimes.get(source));
+                        System.out.println("station " + destination.toUpperCase() + " time: " + stationTimes.get(destination));
                         index++;
                     }
 
@@ -104,13 +106,49 @@ public class Main {
                             System.out.println("Enter 9 to retry selection or press 0 to main menu");
                             option = sc.nextInt();
                         } else {
+                            selected = trains.get(trainSelectedForBooking-1);
                             break;
                         }
                     }
-                    if (option != 9)
+                    if (option != 9) {
+                        trainSelectedForBooking = -1;
                         break;
+                    }
                 case 5:
+                    if (trainSelectedForBooking == -1) {
+                        System.out.println("You have not selected any train!");
+                        System.out.println("Select a train first using option 4");
+                        break;
+                    }
+                    if (!isLoggedIn) {
+                        System.out.println("Please login first to book the train!");
+                        break;
+                    }
 
+                    List<List<Integer>> seats = selected.getSeats();
+                    System.out.println(seats);
+                    System.out.println("The seats that are already booked are marked as 0");
+                    System.out.println("Enter seat selected");
+                    int seat = sc.nextInt();
+
+                    if (userBookingService.isValidSelection(seat, seats)) {
+                        System.out.println("Booking Confirmed");
+                        //implement get ticket
+                    } else {
+                        System.out.println("Invalid Selection!\nSeat already occupied");
+                        //handle other errors
+                    }
+
+                    /*1. Seat Booking
+                    * 2. Writing that details to the trains file
+                    * 3. Writing that to user tickets
+                    * 4. Cancel my Booking function*/
+                    System.out.println("Book a seat case");
+                    break;
+                case 7:
+                    System.out.println("Exiting");
+                    System.out.println("Have a nice day");
+                    break;
                 default:
                     System.out.println("Invalid Option");
             }

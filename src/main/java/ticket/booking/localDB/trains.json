@@ -31,13 +31,33 @@
     ],
     "stationTimes": {
       "bangalore": "11:50:00",
-      "Lucknow": "12:50:00",
-      "Kanpur": "13:50:00"
+      "lucknow": "12:50:00",
+      "kanpur": "13:50:00"
     },
     "stations": [
       "bangalore",
-      "Lucknow",
-      "Kanpur"
+      "lucknow",
+      "kanpur"
+    ]
+  },
+  {
+    "trainId": "QJ3D",
+    "trainNo": 8523,
+    "seats": [
+      [1,2,3,4,5,6],
+      [0,0,0,0,0,0],
+      [13,0,15,0,17,18],
+      [19,20,21,22,23,24]
+    ],
+    "stationTimes": {
+      "bangalore": "14:00:00",
+      "lucknow": "16:50:00",
+      "kanpur": "19:30:00"
+    },
+    "stations": [
+      "bangalore",
+      "lucknow",
+      "kanpur"
     ]
   }
 ]
