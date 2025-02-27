@@ -72,4 +72,27 @@ public class TrainService {
 
         return sourceIndex != -1 && destinationIndex != -1 && sourceIndex < destinationIndex;
     }
+
+    /**
+     * Helper function of TrainService class that does seat booking, checking
+     * and changes in DB
+     * @param seatNo seat number selected
+     * @param trainNo Train in which seat requested
+     * @return {@code TRUE} is booking successful else return {@code FALSE}
+     */
+    public boolean bookSeat(int seatNo, int trainNo) {
+        for (Train train : trainList) {
+            if (train.getTrainNo() == trainNo) {
+                for (List<Integer> sublist : train.getSeats()) {
+                    for (int i = 0; i < sublist.size(); i++) {
+                        if (sublist.get(i) == seatNo) {
+                            sublist.set(i, 0);
+                            return true; // Seat successfully booked
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

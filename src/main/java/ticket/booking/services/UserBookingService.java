@@ -20,7 +20,7 @@ public class UserBookingService {
 
     private ObjectMapper ObjectMapper = new ObjectMapper();
 
-    private static final String USERS_PATH = "ADD ABSOLUTE USERS.JSON DB PATH";
+    private static final String USERS_PATH = "C:\\Users\\Dell\\Documents\\Java\\Projects\\IRCTC\\src\\main\\java\\ticket\\booking\\localDB\\users.json";
 
     /**
      * Default Constructor which
@@ -151,16 +151,19 @@ public class UserBookingService {
     }
 
     /**
+     * Makes seat booking by checking seat availability and propagates those changes to DB
      * @param seatNo seat selected
      * @param seats Seat allocation in a train
      * @return Returns TRUE if selected seat is not booked, else return FALSE
      */
-    public boolean isValidSelection (int seatNo, List<List<Integer>> seats) {
-        for (var sublist: seats) {
-            if (sublist.contains(seatNo))
-                return Boolean.TRUE;
+    public boolean isValidSelection (int seatNo, List<List<Integer>> seats, int trainNo) {
+        //add actual booking function to add data to DB in called function
+        try {
+            TrainService bookSeats = new TrainService();
+            return (bookSeats.bookSeat(seatNo, trainNo));
+        } catch (IOException e) {
+            System.out.println("Unable to load trains : " + e.getMessage());
+            return Boolean.FALSE;
         }
-
-        return Boolean.FALSE;
     }
 }

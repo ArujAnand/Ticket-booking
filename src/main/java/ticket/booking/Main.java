@@ -131,7 +131,7 @@ public class Main {
                     System.out.println("Enter seat selected");
                     int seat = sc.nextInt();
 
-                    if (userBookingService.isValidSelection(seat, seats)) {
+                    if (userBookingService.isValidSelection(seat, seats, selected.getTrainNo())) {
                         System.out.println("Booking Confirmed");
                         //implement get ticket
                     } else {
