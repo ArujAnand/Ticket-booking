@@ -162,7 +162,7 @@ public class UserBookingService {
             TrainService bookSeats = new TrainService();
             return (bookSeats.bookSeat(seatNo, trainNo));
         } catch (IOException e) {
-            System.out.println("Unable to load trains : " + e.getMessage());
+            System.out.println("Unable to load/save train details : " + e.getMessage());
             return Boolean.FALSE;
         }
     }

@@ -87,6 +87,12 @@ public class TrainService {
                     for (int i = 0; i < sublist.size(); i++) {
                         if (sublist.get(i) == seatNo) {
                             sublist.set(i, 0);
+                            try {
+                                saveTrainsToFile();
+                            } catch (Exception e) {
+                                System.out.println("Unable to save to DB");
+                                return false;
+                            }
                             return true; // Seat successfully booked
                         }
                     }
@@ -94,5 +100,14 @@ public class TrainService {
             }
         }
         return false;
+    }
+
+    /**
+     * Saves updated seat selection to the DB
+     * @throws IOException If an error occurs while saving to JSON DB
+     */
+    private void saveTrainsToFile() throws IOException {
+        File trainsFile = new File(TRAINS_PATH);
+        ObjectMapper.writeValue(trainsFile, trainList);
     }
 }
