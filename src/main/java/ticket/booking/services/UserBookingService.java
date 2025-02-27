@@ -153,10 +153,10 @@ public class UserBookingService {
     /**
      * Makes seat booking by checking seat availability and propagates those changes to DB
      * @param seatNo seat selected
-     * @param seats Seat allocation in a train
+     * @param trainNo train number of the train selected
      * @return Returns TRUE if selected seat is not booked, else return FALSE
      */
-    public boolean isValidSelection (int seatNo, List<List<Integer>> seats, int trainNo) {
+    public boolean isValidSelection (int seatNo, int trainNo) {
         //add actual booking function to add data to DB in called function
         try {
             TrainService bookSeats = new TrainService();
