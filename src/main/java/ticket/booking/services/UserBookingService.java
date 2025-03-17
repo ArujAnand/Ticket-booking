@@ -8,10 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.time.LocalDateTime;
 
 public class UserBookingService {
@@ -156,14 +154,38 @@ public class UserBookingService {
      * @param trainNo train number of the train selected
      * @return Returns TRUE if selected seat is not booked, else return FALSE
      */
-    public boolean isValidSelection (int seatNo, int trainNo) {
-        //add actual booking function to add data to DB in called function
+    public boolean isValidSelection (int seatNo, int trainNo, String source, String destination, Train selected) {
         try {
             TrainService bookSeats = new TrainService();
-            return (bookSeats.bookSeat(seatNo, trainNo));
+            if (bookSeats.bookSeat(seatNo, trainNo)) {
+                Ticket newTicket = new Ticket(UUID.randomUUID().toString(), user.getUserId(), source, destination, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), selected);
+                try {
+                    saveUserTicket(newTicket);
+                } catch (Exception e) {
+                    System.out.println("Unable to update user booked tickets" + e.getMessage());
+                    return false;
+                }
+                return true;
+            } else {
+                return false;
+            }
         } catch (IOException e) {
-            System.out.println("Unable to load/save train details : " + e.getMessage());
+            System.out.println("Unable to save train seat details : " + e.getMessage());
             return Boolean.FALSE;
         }
+    }
+
+    /**
+     * Finds and updates the user's tickets
+     * @param newTicket new ticket booked by the user
+     */
+    private void saveUserTicket(Ticket newTicket) throws IOException {
+        user.getTicketsBooked().add(newTicket);
+        saveUserListToFile();
+        /*
+        * 1. Find user in the userlist
+        * 2. Add newTicket to the ticketlist
+        * 3. Call saverUserListToFile() which updates the users
+        * */
     }
 }

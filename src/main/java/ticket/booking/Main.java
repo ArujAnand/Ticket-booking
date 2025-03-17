@@ -15,6 +15,10 @@ public class Main {
         Train selected = null;  //to store the train selected
         boolean isLoggedIn = Boolean.FALSE;
 
+        //source destination for train searching and train booking
+        String source = "";
+        String destination = "";
+
         System.out.println("Hello and welcome!");
         System.out.println("Running Train Booking System");
 
@@ -84,9 +88,9 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Enter your source station");
-                    String source = sc.next().toLowerCase();
+                    source = sc.next().toLowerCase();
                     System.out.println("Enter your destination station");
-                    String destination = sc.next().toLowerCase();
+                    destination = sc.next().toLowerCase();
                     List<Train> trains = userBookingService.getTrains(source, destination);
                     int index = 1;
                     for (Train t: trains) {
@@ -131,20 +135,19 @@ public class Main {
                     System.out.println("Enter seat selected");
                     int seat = sc.nextInt();
 
-                    if (userBookingService.isValidSelection(seat, selected.getTrainNo())) {
+                    if (userBookingService.isValidSelection(seat, selected.getTrainNo(), source, destination, selected)) {
                         System.out.println("Booking Confirmed");
                         //implement get ticket
                     } else {
                         System.out.println("Invalid Selection!\nSeat already occupied");
                         //handle other errors
                     }
-
-                    /*1. Seat Booking
-                    * 2. Writing that details to the trains file
-                    * 3. Writing that to user tickets
-                    * 4. Cancel my Booking function*/
-                    System.out.println("Book a seat case");
+                    /*
+                    * 1. Writing that to user tickets
+                    * 2. Cancel my Booking function*/
                     break;
+                case 6:
+
                 case 7:
                     System.out.println("Exiting");
                     System.out.println("Have a nice day");
