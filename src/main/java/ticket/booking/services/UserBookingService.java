@@ -122,15 +122,14 @@ public class UserBookingService {
         while (iterator.hasNext()) {
             Ticket t = iterator.next();
             if (t.getTicketId().equalsIgnoreCase(ticketID)) {
-                Train train = t.getTrain();
                 //restore train seating
                 try {
                     TrainService cancelBooking = new TrainService();
-                    cancelBooking.restoreSeat(train.getTrainId(), t.
+                    cancelBooking.restoreSeat(t.getTrainNo(), t.getSeatBooked());
                 } catch (IOException e) {
                     System.out.println("Unable to save/retrieve train data " + e.getMessage());
                 }
-                //remove from user booking
+                //remove from user's bookings
                 iterator.remove();
                 //empty the seat back to Train seats
                 System.out.println("Booking Cancelled!");
@@ -173,7 +172,7 @@ public class UserBookingService {
         try {
             TrainService bookSeats = new TrainService();
             if (bookSeats.bookSeat(seatNo, trainNo)) {
-                Ticket newTicket = new Ticket(UUID.randomUUID().toString().substring(0,6), user.getUserId(), source, destination, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), selected);
+                Ticket newTicket = new Ticket(UUID.randomUUID().toString().substring(0,6), user.getUserId(), source, destination, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), trainNo, seatNo);
                 try {
                     saveUserTicket(newTicket);
                 } catch (Exception e) {

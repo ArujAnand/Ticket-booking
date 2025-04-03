@@ -69,6 +69,4 @@ public class Train {
     public String getTrainInfo() {
         return String.format("Train ID: %s  Train No: %d", this.trainId, this.trainNo);
     }
-
-//    public Boolean bookTicket(int )
 }

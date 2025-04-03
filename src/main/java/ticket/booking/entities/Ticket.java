@@ -10,16 +10,17 @@ public class Ticket {
     private String source;
     private String destination;
     private LocalDateTime dateOfTravel;
-    // Train class is in same package hence can be accessed without importing
-    private Train train;
+    private int trainNo;
+    private int seatBooked;
 
-    public Ticket(String ticketId, String userId, String source, String destination, LocalDateTime dateOfTravel, Train train) {
+    public Ticket(String ticketId, String userId, String source, String destination, LocalDateTime dateOfTravel, int trainNo, int seatBooked) {
         this.ticketId = ticketId;
         this.userId = userId;
         this.source = source;
         this.destination = destination;
         this.dateOfTravel = dateOfTravel;
-        this.train = train;
+        this.trainNo = trainNo;
+        this.seatBooked = seatBooked;
     }
 
     public Ticket() {}
@@ -45,6 +46,14 @@ public class Ticket {
         return dateOfTravel;
     }
 
+    public int getTrainNo() {
+        return trainNo;
+    }
+
+    public int getSeatBooked() {
+        return seatBooked;
+    }
+
 //    Setter
     public void setTicketId(String ticketId) {
         this.ticketId = ticketId;
@@ -66,12 +75,12 @@ public class Ticket {
         this.dateOfTravel = dateOfTravel;
     }
 
-    public void setTrain(Train train) {
-        this.train = train;
+    public void setTrainNo(int trainNo) {
+        this.trainNo = trainNo;
     }
 
-    public Train getTrain() {
-        return train;
+    public void setSeatBooked(int seatBooked) {
+        this.seatBooked = seatBooked;
     }
 
     /**

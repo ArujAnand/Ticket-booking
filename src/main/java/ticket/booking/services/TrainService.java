@@ -103,7 +103,7 @@ public class TrainService {
     }
 
     /**
-     * Saves updated seat selection to the DB
+     * Saves updated seat selection to the train DB
      * @throws IOException If an error occurs while saving to JSON DB
      */
     private void saveTrainsToFile() throws IOException {
@@ -111,7 +111,25 @@ public class TrainService {
         ObjectMapper.writeValue(trainsFile, trainList);
     }
 
-    public void restoreSeat(String TrainID, Integer seatNo) {
+    /**
+     * Restores seat as available in the train DB when a ticket is cancelled
+     * @param trainNo Train number of the train whose ticket is cancelled
+     * @param seatNo seat number which has to be restored
+     */
+    public void restoreSeat(int trainNo, int seatNo) {
+        //Find the train and restore the seat
+        Train currTrain = trainList.stream()
+                .filter(train -> train.getTrainNo() == trainNo)
+                .findFirst()
+                .get();
 
+        currTrain.getSeats() //get list of seats
+                .get(seatNo/7) //get the row number for the seat location in list of lists
+                .set((seatNo-1)%6,seatNo);
+        try {
+            saveTrainsToFile();
+        } catch (IOException e) {
+            System.out.println("Unable to write updates seat status to train DB. " + e.getMessage());
+        }
     }
 }
