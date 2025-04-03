@@ -137,17 +137,31 @@ public class Main {
 
                     if (userBookingService.isValidSelection(seat, selected.getTrainNo(), source, destination, selected)) {
                         System.out.println("Booking Confirmed");
-                        //implement get ticket
                     } else {
                         System.out.println("Invalid Selection!\nSeat already occupied");
-                        //handle other errors
                     }
                     /*
-                    * 1. Writing that to user tickets
                     * 2. Cancel my Booking function*/
                     break;
                 case 6:
+                    if (!isLoggedIn) {
+                        System.out.println("Please login first to book the train!");
+                        break;
+                    }
+                    System.out.println("Enter the ticket ID: ");
+                    String ticketID = sc.next();
 
+                    try {
+                        userBookingService.cancelBooking(ticketID);
+                    } catch (Exception e) {
+
+                    }
+                    break;
+                    /*
+                    * fetch bookings for the user
+                    * remove that booking from the user list
+                    * change seat value to 0 from 1 in trains list
+                    * */
                 case 7:
                     System.out.println("Exiting");
                     System.out.println("Have a nice day");

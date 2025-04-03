@@ -15,7 +15,7 @@ public class TrainService {
 
     private ObjectMapper ObjectMapper = new ObjectMapper();
 
-    private static final String TRAINS_PATH = "C:\\Users\\Dell\\Documents\\Java\\Projects\\IRCTC\\src\\main\\java\\ticket\\booking\\localDB\\trains.json";
+    private static final String TRAINS_PATH = "C:\\Users\\Aruj\\IdeaProjects\\Ticket-booking\\src\\main\\java\\ticket\\booking\\localDB\\trains.json";
 
     /**
      * loads train data from JSON database
@@ -109,5 +109,9 @@ public class TrainService {
     private void saveTrainsToFile() throws IOException {
         File trainsFile = new File(TRAINS_PATH);
         ObjectMapper.writeValue(trainsFile, trainList);
+    }
+
+    public void restoreSeat(String TrainID, Integer seatNo) {
+
     }
 }

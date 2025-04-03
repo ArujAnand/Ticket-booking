@@ -18,7 +18,7 @@ public class UserBookingService {
 
     private ObjectMapper ObjectMapper = new ObjectMapper();
 
-    private static final String USERS_PATH = "C:\\Users\\Dell\\Documents\\Java\\Projects\\IRCTC\\src\\main\\java\\ticket\\booking\\localDB\\users.json";
+    private static final String USERS_PATH = "C:\\Users\\Aruj\\IdeaProjects\\Ticket-booking\\src\\main\\java\\ticket\\booking\\localDB\\users.json";
 
     /**
      * Default Constructor which
@@ -108,7 +108,12 @@ public class UserBookingService {
 //        System.out.println(user.getTicketsBooked().size());
     }
 
-/* take ticket ID, if date of travel after current date -> cancel booking */
+
+    /**
+     * Handles cancelling of booking for the user by removing the ticket from user DB and restoring seat in train DB
+     * @param ticketID ID of the ticket that needs to be cancelled, the ticketID given must be associated with the logged in account
+     * @return return TRUE if the cancellation is successful else FALSE, with error if any
+     */
     public boolean cancelBooking (String ticketID) {
 
         List<Ticket> tkt_b = user.getTicketsBooked();
@@ -116,8 +121,18 @@ public class UserBookingService {
 
         while (iterator.hasNext()) {
             Ticket t = iterator.next();
-            if (t.getDateOfTravel().isAfter(LocalDateTime.now()) && t.getTicketId().equalsIgnoreCase(ticketID)) {
+            if (t.getTicketId().equalsIgnoreCase(ticketID)) {
+                Train train = t.getTrain();
+                //restore train seating
+                try {
+                    TrainService cancelBooking = new TrainService();
+                    cancelBooking.restoreSeat(train.getTrainId(), t.
+                } catch (IOException e) {
+                    System.out.println("Unable to save/retrieve train data " + e.getMessage());
+                }
+                //remove from user booking
                 iterator.remove();
+                //empty the seat back to Train seats
                 System.out.println("Booking Cancelled!");
                 try {
                     saveUserListToFile(); // Persist changes
@@ -158,7 +173,7 @@ public class UserBookingService {
         try {
             TrainService bookSeats = new TrainService();
             if (bookSeats.bookSeat(seatNo, trainNo)) {
-                Ticket newTicket = new Ticket(UUID.randomUUID().toString(), user.getUserId(), source, destination, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), selected);
+                Ticket newTicket = new Ticket(UUID.randomUUID().toString().substring(0,6), user.getUserId(), source, destination, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), selected);
                 try {
                     saveUserTicket(newTicket);
                 } catch (Exception e) {
@@ -183,9 +198,9 @@ public class UserBookingService {
         user.getTicketsBooked().add(newTicket);
         saveUserListToFile();
         /*
-        * 1. Find user in the userlist
-        * 2. Add newTicket to the ticketlist
-        * 3. Call saverUserListToFile() which updates the users
+        * 1. Find user in the userlist - Not needed
+        * 2. Add newTicket to the ticketlist - Done
+        * 3. Call saverUserListToFile() which updates the users - Done
         * */
     }
 }
