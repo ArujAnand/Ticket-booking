@@ -64,7 +64,7 @@ public class Main {
                     name = sc.next();
                     System.out.println("Enter password to log-in");
                     pass = sc.next();
-                    User toLogin = new User(name, pass, UserServiceUtil.hashPassword(pass), new ArrayList<Ticket>(), UUID.randomUUID().toString());
+                    User toLogin = new User(name, pass, UserServiceUtil.hashPassword(pass), new ArrayList<Ticket>(), UUID.randomUUID().toString().substring(0,6));
                     try {
                         userBookingService = new UserBookingService(toLogin);
                     } catch (IOException e) {
@@ -86,7 +86,7 @@ public class Main {
                         break;
                     }
                     break;
-                case 4:
+                case 4: //Search trains
                     System.out.println("Enter your source station");
                     source = sc.next().toLowerCase();
                     System.out.println("Enter your destination station");
@@ -118,7 +118,7 @@ public class Main {
                         trainSelectedForBooking = -1;
                         break;
                     }
-                case 5:
+                case 5: //5. Book a seat
                     if (trainSelectedForBooking == -1) {
                         System.out.println("You have not selected any train!");
                         System.out.println("Select a train first using option 4");
@@ -135,15 +135,13 @@ public class Main {
                     System.out.println("Enter seat selected");
                     int seat = sc.nextInt();
 
-                    if (userBookingService.isValidSelection(seat, selected.getTrainNo(), source, destination, selected)) {
+                    if (userBookingService.isValidSelection(seat, selected.getTrainNo(), source, destination)) {
                         System.out.println("Booking Confirmed");
                     } else {
                         System.out.println("Invalid Selection!\nSeat already occupied");
                     }
-                    /*
-                    * 2. Cancel my Booking function*/
                     break;
-                case 6:
+                case 6:  //Cancel my Booking
                     if (!isLoggedIn) {
                         System.out.println("Please login first to book the train!");
                         break;
@@ -151,11 +149,7 @@ public class Main {
                     System.out.println("Enter the ticket ID: ");
                     String ticketID = sc.next();
 
-                    try {
-                        userBookingService.cancelBooking(ticketID);
-                    } catch (Exception e) {
-
-                    }
+                    userBookingService.cancelBooking(ticketID);
                     break;
                     /*
                     * fetch bookings for the user

@@ -20,8 +20,6 @@ public class Train {
         this.stations = stations;
     }
 
-    public Train() {
-    }
     //getters
 
     public String getTrainId() {

@@ -23,8 +23,6 @@ public class Ticket {
         this.seatBooked = seatBooked;
     }
 
-    public Ticket() {}
-
 //    Getter
     public String getTicketId() {
         return ticketId;

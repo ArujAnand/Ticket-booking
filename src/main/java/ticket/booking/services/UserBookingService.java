@@ -44,8 +44,6 @@ public class UserBookingService {
      */
     public UserBookingService (User user) throws IOException {
         this.user = user;
-        //might be useless; check later
-        File users = new File(USERS_PATH);
         this.userList = loadUsers();
     }
 
@@ -112,9 +110,8 @@ public class UserBookingService {
     /**
      * Handles cancelling of booking for the user by removing the ticket from user DB and restoring seat in train DB
      * @param ticketID ID of the ticket that needs to be cancelled, the ticketID given must be associated with the logged in account
-     * @return return TRUE if the cancellation is successful else FALSE, with error if any
      */
-    public boolean cancelBooking (String ticketID) {
+    public void cancelBooking (String ticketID) {
 
         List<Ticket> tkt_b = user.getTicketsBooked();
         Iterator<Ticket> iterator = tkt_b.iterator();
@@ -135,16 +132,13 @@ public class UserBookingService {
                 System.out.println("Booking Cancelled!");
                 try {
                     saveUserListToFile(); // Persist changes
-                    return true;
                 } catch (IOException e) {
                     System.out.println("Unable to save changes: " + e.getMessage());
-                    return false; // Handle failure
                 }
             }
         }
 
         System.out.println("No such upcoming bookings exist");
-        return false;
     }
 
     /**
@@ -168,7 +162,7 @@ public class UserBookingService {
      * @param trainNo train number of the train selected
      * @return Returns TRUE if selected seat is not booked, else return FALSE
      */
-    public boolean isValidSelection (int seatNo, int trainNo, String source, String destination, Train selected) {
+    public boolean isValidSelection (int seatNo, int trainNo, String source, String destination) {
         try {
             TrainService bookSeats = new TrainService();
             if (bookSeats.bookSeat(seatNo, trainNo)) {

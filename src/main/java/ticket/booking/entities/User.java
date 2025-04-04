@@ -18,8 +18,6 @@ public class User {
         this.userId = userId;
     }
 
-    public User() {}
-
     /* getters for various fields */
     public String getName() {
         return this.name;
